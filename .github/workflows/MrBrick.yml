@@ -28,8 +28,6 @@ jobs:
       - name: Changed Files
         id: changed-files
         uses: tj-actions/changed-files@v23
-        with:
-          path: ./pub/
       - name: Send Command
         env:
           iotConnString: ${{secrets.IOTCONNECTIONSTRING}}
