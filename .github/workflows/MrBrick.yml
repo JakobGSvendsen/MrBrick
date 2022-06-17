@@ -54,10 +54,8 @@ jobs:
                   "left" {
                       $commands["leftDuration"] = $value 
                       $commands["leftSpeed"]" = $Speed * 10 # 100% speed
-                      }
-            
                   }
-                  "right" {
+                 "right" {
                       $commands["rightDuration"] = $value 
                       $commands["rightSpeed"]" = $Speed * 10 # 100% speed
                   }
