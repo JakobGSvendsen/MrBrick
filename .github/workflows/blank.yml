@@ -31,13 +31,13 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       - name: Send Command
-      run: |
-        $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
-        $messageToSend = "hello world"
+        run: |
+          $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
+          $messageToSend = "hello world"
 
-        Get-ChildItem ".\.github\workflows\dll\*.dll" | 
-        ForEach-Object { . Import-Module $_.FullName -Verbose ; Write-Verbose $_.FullName}
-        $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
-        $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
-        $cloudClient.SendAsync($deviceId, $messagetosend)
-      shell: powershell
+          Get-ChildItem ".\.github\workflows\dll\*.dll" | 
+          ForEach-Object { . Import-Module $_.FullName -Verbose ; Write-Verbose $_.FullName}
+          $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
+          $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
+          $cloudClient.SendAsync($deviceId, $messagetosend)
+        shell: powershell
