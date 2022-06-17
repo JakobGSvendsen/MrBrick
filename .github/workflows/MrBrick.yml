@@ -31,18 +31,18 @@ jobs:
         with:
           path: ./pub/
       - name: Send Command
+        env:
+          iotConnString: ${{secrets.IOTCONNECTIONSTRING}}"
         run: |
-          $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
+          $iotConnString  = $env:iotConnString
           $deviceId = "MrBrick"
 
           Import-Module ".\.github\workflows\dll\Microsoft.Azure.Devices.dll" -Verbose
 
-          $stringArray = $()
-          $added_files = ${{ steps.changed-files.outputs.all_changed_files }} 
+          $added_files = "${{ steps.changed-files.outputs.all_changed_files }}" -split " "
+          $added_files.count
           $added_files
-          $stringArray += ${{ steps.changed-files.outputs.all_changed_files }} 
-          $stringArray.count
-          $content = Get-Content -Path $stringArray
+          $content = Get-Content -Path $added_files
 
           $Speed = 20
           $commands = @{}
