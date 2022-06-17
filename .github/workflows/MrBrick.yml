@@ -33,7 +33,7 @@ jobs:
         run: |
           $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
 
-
+          
 
           Import-Module .\.github\workflows\modules\AzureIoT -Force
           Import-Module .\.github\workflows\modules\PSLegoEV3WindowsPowerShell -Force
@@ -41,6 +41,6 @@ jobs:
           Set-Ev3AzureIoTDeviceName -AzureIoTDeviceName "mrrobot"
           Invoke-EV3Forward
 
-          ${{ steps.changed-files.outputs.all_changed_files }}
+          ${{ steps.changed-files.outputs.all_changed_files }} | Get-Content
 
         shell: powershell
