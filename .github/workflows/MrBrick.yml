@@ -40,7 +40,9 @@ jobs:
           $added_files = "${{ steps.changed-files.outputs.all_changed_files }}" -split " "
           $added_files.count
           $added_files
-          $content = Get-Content -Path $added_files
+          $added_filesFiltered = $added_files | where { $_ -like "pub*"}
+          $added_filesFiltered
+          $content = Get-Content -Path $added_filesFiltered
 
           $Speed = 20
           $commands = @{}
