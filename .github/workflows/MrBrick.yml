@@ -35,6 +35,8 @@ jobs:
           iotConnString: ${{secrets.IOTCONNECTIONSTRING}}"
         run: |
           $iotConnString  = $env:iotConnString
+          "iotConnString:"
+          $iotConnString
           $deviceId = "MrBrick"
 
           Import-Module ".\.github\workflows\dll\Microsoft.Azure.Devices.dll" -Verbose
