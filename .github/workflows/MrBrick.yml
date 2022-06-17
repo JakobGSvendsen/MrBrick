@@ -32,11 +32,9 @@ jobs:
           path: ./pub/
       - name: Send Command
         env:
-          iotConnString: ${{secrets.IOTCONNECTIONSTRING}}"
+          iotConnString: ${{secrets.IOTCONNECTIONSTRING}}
         run: |
           $iotConnString  = $env:iotConnString
-          "iotConnString:"
-          $iotConnString.replace("ev3dev","ev4dev")
           $deviceId = "mrrobot"
 
           Import-Module ".\.github\workflows\dll\Microsoft.Azure.Devices.dll" -Verbose
