@@ -35,7 +35,7 @@ jobs:
         with:
           # Specify the Az PowerShell script here.
           inlineScript: |
-            $iotConnString  = ""
+            $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
             $messageToSend = "hello world"
             $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
             $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
