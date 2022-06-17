@@ -28,7 +28,7 @@ jobs:
       - name: Send Command
         run: |
           $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
-          Import-Module .\PSLegoEV3WindowsPowerShell -Force
+          Import-Module .\modules\PSLegoEV3WindowsPowerShell -Force
           Connect-Ev3  -AzureIoTConnectionString $iotConnString
           Set-Ev3AzureIoTDeviceName -AzureIoTDeviceName "mrrobot"
           Invoke-EV3Forward
