@@ -29,13 +29,13 @@ jobs:
       - name: Changed Files
         id: changed-files
         uses: tj-actions/changed-files@v23
+        path: ./pub/
       - name: Send Command
         run: |
           $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
           $deviceId = "MrBrick"
 
-          #${{ steps.changed-files.outputs.all_changed_files }} | Get-Content
-          $content = Get-Content .\Examples\AzureIoTDemo2022\Samples\1.yaml
+          $content = ${{ steps.changed-files.outputs.all_changed_files }} | Get-Content
 
           $commands = @{}
           foreach($line in $content){
