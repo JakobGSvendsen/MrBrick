@@ -32,15 +32,37 @@ jobs:
       - name: Send Command
         run: |
           $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
+          $deviceId = "MrBrick"
 
-          
+          #${{ steps.changed-files.outputs.all_changed_files }} | Get-Content
+          $content = Get-Content .\Examples\AzureIoTDemo2022\Samples\1.yaml
 
-          Import-Module .\.github\workflows\modules\AzureIoT -Force
-          Import-Module .\.github\workflows\modules\PSLegoEV3WindowsPowerShell -Force
-          Connect-Ev3  -AzureIoTConnectionString $iotConnString
-          Set-Ev3AzureIoTDeviceName -AzureIoTDeviceName "mrrobot"
-          Invoke-EV3Forward
+          $commands = @{}
+          foreach($line in $content){
+              $cmd  = $line.Replace(" ","").split(":")[0]
+              $value = $line.Replace(" ","").split(":")[1]
+              switch($cmd){
+                  "left" {
+                      $commands += @{
+                          leftSpeed     = $Speed * 10 # 100% speed
+                          leftDuration  = $value 
+                      }
+            
+                  }
+                  "right" {
+                      $commands += @{
+                          rightSpeed    = $RightSpeed * 10
+                          rightDuration = $value
+                        
+                      }
+                  }
 
-          ${{ steps.changed-files.outputs.all_changed_files }} | Get-Content
-
+                  
+              }
+          }
+          $messageString = $commands | convertto-json
+          Import-Module ".\.github\workflows\dll\Microsoft.Azure.Devices.dll" -Verbose
+          $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
+          $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
+          $cloudClient.SendAsync($deviceId, $messagetosend)
         shell: powershell
