@@ -63,6 +63,7 @@ jobs:
                     }
                 }
             }
+            $commands["isPublic"] = 1
             $messageString = $commands | convertto-json
             $messageString
             $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
