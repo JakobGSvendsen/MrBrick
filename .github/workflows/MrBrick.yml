@@ -43,27 +43,30 @@ jobs:
           $added_filesFiltered = $added_files | where { $_ -like "pub*"}
           $added_filesFiltered
           if($null -eq $added_filesFiltered) { break } #quit with no message if not from that path
-          $content = Get-Content -Path $added_filesFiltered
+         
+          foreach($path in $added_filesFiltered) {
+            $content = Get-Content -Path $path
 
-          $Speed = 20
-          $commands = @{}
-          foreach($line in $content){
-              $cmd  = $line.Replace(" ","").split(":")[0]
-              $value = $line.Replace(" ","").split(":")[1]
-              switch($cmd){
-                  "left" {
-                      $commands["leftDuration"] = $value 
-                      $commands["leftSpeed"] = $Speed * 10 # 100% speed
-                  }
-                "right" {
-                      $commands["rightDuration"] = $value 
-                      $commands["rightSpeed"] = $Speed * 10 # 100% speed
-                  }
-              }
+            $Speed = 20
+            $commands = @{}
+            foreach($line in $content){
+                $cmd  = $line.Replace(" ","").split(":")[0]
+                $value = $line.Replace(" ","").split(":")[1]
+                switch($cmd){
+                    "left" {
+                        $commands["leftDuration"] = $value 
+                        $commands["leftSpeed"] = $Speed * 10 # 100% speed
+                    }
+                  "right" {
+                        $commands["rightDuration"] = $value 
+                        $commands["rightSpeed"] = $Speed * 10 # 100% speed
+                    }
+                }
+            }
+            $messageString = $commands | convertto-json
+            $messageString
+            $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
+            $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
+            $cloudClient.SendAsync($deviceId, $messagetosend)
           }
-          $messageString = $commands | convertto-json
-          $messageString
-          $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
-          $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
-          $cloudClient.SendAsync($deviceId, $messagetosend)
         shell: powershell
