@@ -28,6 +28,8 @@ jobs:
       - name: Changed Files
         id: changed-files
         uses: tj-actions/changed-files@v23
+        with:
+          seperator: '|'
       - name: Send Command
         env:
           iotConnString: ${{secrets.IOTCONNECTIONSTRING}}
@@ -37,7 +39,7 @@ jobs:
 
           Import-Module ".\.github\workflows\dll\Microsoft.Azure.Devices.dll" -Verbose
 
-          $added_files = "${{ steps.changed-files.outputs.all_changed_files }}" -split " "
+          $added_files = "${{ steps.changed-files.outputs.all_changed_files }}" -split "|"
           $added_files.count
           $added_files
           $added_filesFiltered = $added_files | where { $_ -like "pub*"}
