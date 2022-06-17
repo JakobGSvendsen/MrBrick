@@ -19,7 +19,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: windows-latest
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -53,11 +52,11 @@ jobs:
               switch($cmd){
                   "left" {
                       $commands["leftDuration"] = $value 
-                      $commands["leftSpeed"]" = $Speed * 10 # 100% speed
+                      $commands["leftSpeed"] = $Speed * 10 # 100% speed
                   }
-                 "right" {
+                "right" {
                       $commands["rightDuration"] = $value 
-                      $commands["rightSpeed"]" = $Speed * 10 # 100% speed
+                      $commands["rightSpeed"] = $Speed * 10 # 100% speed
                   }
               }
           }
