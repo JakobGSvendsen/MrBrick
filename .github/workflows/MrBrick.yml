@@ -42,6 +42,7 @@ jobs:
           $added_files
           $added_filesFiltered = $added_files | where { $_ -like "pub*"}
           $added_filesFiltered
+          if($null -eq $added_filesFiltered) { break } #quit with no message if not from that path
           $content = Get-Content -Path $added_filesFiltered
 
           $Speed = 20
