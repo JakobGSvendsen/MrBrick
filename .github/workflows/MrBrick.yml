@@ -61,6 +61,7 @@ jobs:
               }
           }
           $messageString = $commands | convertto-json
+          $messageString
           $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
           $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
           $cloudClient.SendAsync($deviceId, $messagetosend)
