@@ -51,7 +51,7 @@ Function Connect-EV3 {
         }
         "azureiot" {
             #import-module C:\TFS\ev3dev\AzureIoT\AzureIoT.psm1 -Force
-            import-module AzureIoT -Force
+            #import-module AzureIoT -Force
             #region Create a CloudClient
             $CloudClientParams = @{
                 iotConnString = $AzureIoTConnectionString
