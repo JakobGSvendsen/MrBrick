@@ -24,7 +24,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
+        with:
+          fetch-depth: 2
+      - run: git checkout HEAD^
       - name: Send Command
         run: |
           $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
@@ -35,6 +37,6 @@ jobs:
           Set-Ev3AzureIoTDeviceName -AzureIoTDeviceName "mrrobot"
           Invoke-EV3Forward
 
-          dir -recurse $GITHUB_WORKSPACE
+          dir
 
         shell: powershell
