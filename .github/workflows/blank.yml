@@ -33,7 +33,7 @@ jobs:
       - name: Send Command
       run: |
         $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
-        $messageToSend = "hello world"
+        $messageString = "hello world"
 
         Get-ChildItem ".\.github\workflows\dll\*.dll" | 
         ForEach-Object { . Import-Module $_.FullName -Verbose ; Write-Verbose $_.FullName}
