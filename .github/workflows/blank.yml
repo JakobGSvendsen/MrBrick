@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -30,18 +30,14 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-      - name: Azure PowerShell Action
-        uses: Azure/powershell@v1
-        with:
-          # Specify the Az PowerShell script here.
-          inlineScript: |
-            $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
-            $messageToSend = "hello world"
+      - name: Send Command
+      run: |
+        $iotConnString  = "${{secrets.IOTCONNECTIONSTRING}}"
+        $messageToSend = "hello world"
 
-            Get-ChildItem ".\.github\workflows\dll\*.dll" | 
-            ForEach-Object { . Import-Module $_.FullName -Verbose ; Write-Verbose $_.FullName}
-            $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
-            $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
-            $cloudClient.SendAsync($deviceId, $messagetosend)
-          # Azure PS version to be used to execute the script, example: 1.8.0, 2.8.0, 3.4.0. To use the latest version, specify "latest".
-          azPSVersion: "latest"
+        Get-ChildItem ".\.github\workflows\dll\*.dll" | 
+        ForEach-Object { . Import-Module $_.FullName -Verbose ; Write-Verbose $_.FullName}
+        $cloudClient = [Microsoft.Azure.Devices.ServiceClient]::CreateFromConnectionString($iotConnString)
+        $messagetosend = [Microsoft.Azure.Devices.Message]([Text.Encoding]::ASCII.GetBytes($messageString))
+        $cloudClient.SendAsync($deviceId, $messagetosend)
+      shell: powershell
